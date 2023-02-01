@@ -153,7 +153,12 @@ DJOSER = {
     'USERNAME_RESET_CONFIRM_URL':'email/reset/confirm/{uid},{token}',
     'ACTIVATION_URL':'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL':True,
-    
+    'SERIALIZERS':{
+        'user_create':'Authentication.serializers.UserCreateSerializer',
+        'user':'Authentication.serializers.UserCreateSerializer',
+        'user_delete':'djoser.serializers.UserCreateSerializer'
+        
+    }
     
 }
 
