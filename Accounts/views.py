@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .permissions import IsAdminOrReadOnly
 
-class MerchandiserList(APIView):
+class TutorList(APIView):
     def get(self, request, format=None):
         tutor = Tutor.objects.all()
         serializers = TutorSerializer(tutor, many=True)
