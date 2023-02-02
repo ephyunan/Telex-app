@@ -1,6 +1,5 @@
 
 
-import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -11,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*g5^+#)r9c*6@3yd9+9nc6o%2x49^@axhq5=85cbf3urc8d$@='
+SECRET_KEY = 'django-insecure-ovnaq!&hdnyz()obmqjvayl&4y8mbs%8r*+-6@=o*owh_r^_m5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -28,10 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Authentication',
-    'rest_framework',
-    'djoser',
+    'Accounts',
     'rest_framework.authtoken',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -49,7 +47,7 @@ ROOT_URLCONF = 'Telex.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'build')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,21 +69,12 @@ WSGI_APPLICATION = 'Telex.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'telex',
+        'NAME': 'tbase',
         'USER':'yusufu',
         'PASSWORD':'kiprono12'
-        
     }
 }
 
-# App password kxtcspsdmjwrieuj
-
-EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST ='smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'doe083534@gmail.com'
-EMAIL_HOST_PASSWORD = 'kxtcspsdmjwrieuj'
-EMAIL_USE_TLS =True
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -123,44 +112,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'build/static')
-]
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-      
-    ),
-}
-SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
-}
-
-DJOSER = {
-    'LOGIN_FIELD':'email',
-    'USER_CREATE_PASSWORD_RETYPE':True,
-    'USERNAME_CHANGED_EMAIL_CONFIRMATION':True,
-    'PASSWORD_CHANGED_EMAIL_CONFIRMATION':True,
-    'SEND_CONFIRMATION_EMAIL':True,
-    'SET_PASSWORD_RETYPE':True,
-    'PASSWORD_RESET_CONFIRM_URL':'password/reset/confirm/{uid},{token}',
-    'USERNAME_RESET_CONFIRM_URL':'email/reset/confirm/{uid},{token}',
-    'ACTIVATION_URL':'activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL':True,
-    'SERIALIZERS':{
-        'user_create':'Authentication.serializers.UserCreateSerializer',
-        'user':'Authentication.serializers.UserCreateSerializer',
-        'user_delete':'djoser.serializers.UserCreateSerializer'
-        
-    }
-    
-}
-
-
-AUTH_USER_MODEL='Authentication.UserAccount'
