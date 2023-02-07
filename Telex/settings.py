@@ -29,7 +29,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Accounts',
     'rest_framework.authtoken',
-    'rest_framework'
+    'rest_framework',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'rest_auth',
+    'rest_auth.registration'
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -69,7 +76,7 @@ WSGI_APPLICATION = 'Telex.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tbase',
+        'NAME': 'tutor',
         'USER':'yusufu',
         'PASSWORD':'kiprono12'
     }
@@ -79,7 +86,8 @@ DATABASES = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-    )
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
 
 
@@ -123,3 +131,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL='Accounts.Users'
