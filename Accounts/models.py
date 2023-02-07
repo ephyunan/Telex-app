@@ -1,60 +1,87 @@
 from django.db import models
 
-from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 
-class MyAccountManager(BaseUserManager):
-    def create_user(self, email, fullname=None, birthday=None, zipcode=None,password=None
-                    ):
-        if not email:
-            raise ValueError('Users must have an email address')
-
-        user = self.model(
-            Email_Address=self.normalize_email(email),
-            name=self.normalize_email(email),
-            Date_of_Birth=birthday,
-            zipcode=zipcode,
-        )
-
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, Email_Address, password):
-        user = self.create_user(
-            Email_Address=self.normalize_email(Email_Address),
-            password=password,
-        )
-        user.is_admin = True
-        user.is_active=True
-        user.is_staff = True
-        user.is_superuser = True
-        user.save(using=self._db)
-
-class Users(AbstractBaseUser):
-    Email_Address = models.EmailField(verbose_name="email", max_length=60, unique=True, blank=True, null=True, default=None)
+class User(AbstractUser):
+    is_student = models.BooleanField(default=False)
+    is_Tutor = models.BooleanField(default=False)
     
-    name = models.CharField(max_length=30, blank=True, null=True)
-    username= models.CharField(max_length=30,unique=True, blank=True, null=True)
-    zipcode = models.CharField(max_length=30, blank=True, null=True)
-    is_admin = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    is_tutor = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
     
-    is_superuser = models.BooleanField(default=False)
-
-    USERNAME_FIELD = 'Email_Address'
-
-    objects = MyAccountManager()
-
-    class Meta:
-        db_table = "tbl_users"
-
+class Tutor(models.Model):
+    tutor = models.OneToOneField(
+      settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    bio = models.TextField()
+    
     def __str__(self):
-        return str(self.email)
+        return self.tutor.username
+    
+    
+class Student(models.Model):
+    student = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    
+    def __str__(self):
+        return self.student.username
+    
+    
+       
 
 
-    def has_perm(self, perm, obj=None): return self.is_superuser
+# class MyAccountManager(BaseUserManager):
+#     def create_user(self, email, fullname=None, birthday=None, zipcode=None,password=None
+#                     ):
+#         if not email:
+#             raise ValueError('Users must have an email address')
 
-    def has_module_perms(self, app_label): return self.is_superuser
+#         user = self.model(
+#             Email_Address=self.normalize_email(email),
+#             name=self.normalize_email(email),
+#             Date_of_Birth=birthday,
+#             zipcode=zipcode,
+#         )
+
+#         user.set_password(password)
+#         user.save(using=self._db)
+#         return user
+
+#     def create_superuser(self, Email_Address, password):
+#         user = self.create_user(
+#             Email_Address=self.normalize_email(Email_Address),
+#             password=password,
+#         )
+#         user.is_admin = True
+#         user.is_active=True
+#         user.is_staff = True
+#         user.is_superuser = True
+#         user.save(using=self._db)
+
+# class Users(AbstractBaseUser):
+#     Email_Address = models.EmailField(verbose_name="email", max_length=60, unique=True, blank=True, null=True, default=None)
+    
+#     name = models.CharField(max_length=30, blank=True, null=True)
+#     username= models.CharField(max_length=30,unique=True, blank=True, null=True)
+#     zipcode = models.CharField(max_length=30, blank=True, null=True)
+#     is_admin = models.BooleanField(default=False)
+#     is_active = models.BooleanField(default=True)
+#     is_tutor = models.BooleanField(default=False)
+#     is_staff = models.BooleanField(default=False)
+    
+#     is_superuser = models.BooleanField(default=False)
+
+#     USERNAME_FIELD = 'Email_Address'
+
+#     objects = MyAccountManager()
+
+#     class Meta:
+#         db_table = "tbl_users"
+
+#     def __str__(self):
+#         return str(self.email)
+
+
+#     def has_perm(self, perm, obj=None): return self.is_superuser
+
+#     def has_module_perms(self, app_label): return self.is_superuser
